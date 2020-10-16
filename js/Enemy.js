@@ -17,12 +17,12 @@ export default class Enemy {
         this.ca = Math.floor((this.con + this.dex) / 5);
         this.mr = Math.floor((this.con + this.sab) / 5);
 
-        this.fortitude = Math.floor(this.con / 5);
-        this.reflex = Math.floor(this.dex / 5);
-        this.willpower = Math.floor(this.sab / 5);
+        this.fortitude = Math.floor(this.con / 5) < 1 ? 1 : Math.floor(this.con / 5);
+        this.reflex = Math.floor(this.dex / 5) < 1 ? 1 : Math.floor(this.dex / 5);
+        this.willpower = Math.floor(this.sab / 5) < 1 ? 1 : Math.floor(this.sab / 5);
         this.atackbonus = Math.floor((this.for + this.dex) / 10 + (this.lvl / 2)) < 1 ? 1 : Math.floor((this.for + this.dex) / 10 + (this.lvl / 2));
-        this.grapple = Math.floor((this.for + this.dex) / 5);
-        this.surprise = Math.floor((this.con + this.per) / 10);
+        this.grapple = Math.floor((this.for + this.dex) / 5) < 1 ? 1 :  Math.floor((this.for + this.dex) / 5);
+        this.surprise = Math.floor((this.con + this.per) / 10) < 1 ? 1 : Math.floor((this.con + this.per) / 10);
         this.initiative = Math.floor((this.int + this.sab) / 5 + getRandomInt(1, 12));
 
         this.physicaldmg = Math.floor(this.for / 1.5) < 1 ? 1 : Math.floor(this.for / 1.5);
@@ -59,7 +59,7 @@ export default class Enemy {
 
     applyModifers() {
         this.race.modifiers.forEach(modifier => {
-            this[modifier.type] = ((this[modifier.type] + modifier.value) < 0) ? 1 : this[modifier.type] + modifier.value;
+            this[modifier.type] = ((this[modifier.type] + modifier.value) < 1) ? 1 : this[modifier.type] + modifier.value;
 
         });
     }
@@ -116,14 +116,16 @@ export default class Enemy {
         CA: ${this.ca}<br>
         MR:  ${this.mr}<br>`
 
-        let str2 = `Fortitude: ${this.fortitude}<br>
+        let str2 = `
+        <br><br><br>
+        Fortitude: ${this.fortitude}<br>
         Reflexos: ${this.reflex}<br>
         Vontade: ${this.willpower}<br>
         BA: ${this.atackbonus}<br>
         Agarrar: ${this.grapple}<br>
         Surpresa: ${this.surprise}<br>
         Iniciativa: ${this.initiative}<br>
-        <br>
+        <br><br>
         DF: ${this.physicaldmg}<br>
         DM: ${this.magicdmg}<br>
         Mira: ${this.aim}<br>`;
