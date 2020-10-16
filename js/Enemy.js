@@ -30,8 +30,18 @@ export default class Enemy {
         this.aim = Math.floor(this.dex / 1.5) < 1 ? 1 : Math.floor(this.dex / 1.5);
     }
 
+    tst(){
+        let mod = ['for','dex','con','int','sab','car','vig','per'];
+
+        mod.forEach(mod => {
+            if(this[mod]<1){
+                console.log(mod);
+            }
+        });
+    }
+
     setAttr() {
-        let base = getRandomInt(80, 100) + (this.lvl - 1 * 10);
+        let base = getRandomInt(80, 100) + ((this.lvl - 1) * 20);
 
         let r = [];
         let sum = 0;
@@ -46,21 +56,20 @@ export default class Enemy {
             attr.push(Math.floor((r[i] / sum) * base));
         }
 
-        this.for = attr[0];
-        this.dex = attr[1];
-        this.con = attr[2];
-        this.int = attr[3];
-        this.sab = attr[4];
-        this.car = attr[5];
-        this.vig = attr[6];
-        this.per = attr[7];
+        this.for = attr[0] <= 1 ? 1 : attr[0];
+        this.dex = attr[1] <= 1 ? 1 : attr[1];
+        this.con = attr[2] <= 1 ? 1 : attr[2];
+        this.int = attr[3] <= 1 ? 1 : attr[3];
+        this.sab = attr[4] <= 1 ? 1 : attr[4];
+        this.car = attr[5] <= 1 ? 1 : attr[5];
+        this.vig = attr[6] <= 1 ? 1 : attr[6];
+        this.per = attr[7] <= 1 ? 1 : attr[7];
 
     }
 
     applyModifers() {
         this.race.modifiers.forEach(modifier => {
-            this[modifier.type] = ((this[modifier.type] + modifier.value) < 1) ? 1 : this[modifier.type] + modifier.value;
-
+            this[modifier.type] = ((this[modifier.type] + modifier.value) <= 1) ? 1 : this[modifier.type] + modifier.value;
         });
     }
 
@@ -99,11 +108,12 @@ export default class Enemy {
     }
 
     getString() {
+        this.tst();
         let str = `Raça: ${this.race.name}<br>
         Classe: ${this.class}<br>
         <br>
         Força:  ${this.for}<br>
-        Destresa:  ${this.dex}<br>
+        Destreza:  ${this.dex}<br>
         Constituição:  ${this.con}<br>
         Inteligencia:  ${this.int}<br>
         Sabedoria:  ${this.sab}<br>

@@ -11,8 +11,6 @@ generateButton.addEventListener('click',() => {
     let lvl = lvlInput.value ? lvlInput.value : 1;
     let e = new Enemy(lvl);
 
-    console.log(e.getString())
-
     charDiv.innerHTML = e.getString()[0];
     charDiv2.innerHTML = e.getString()[1];
 });
