@@ -5,14 +5,18 @@ export default class Enemy {
     constructor(level) {
         this.lvl = level;
 
+        this.lowbase = 90;
+        this.highbase = 110;
+        this.baserate = 20;
+
         this.class = classes[Math.floor(Math.random() * classes.length)];
         this.race = races[Math.floor(Math.random() * races.length)];
 
         this.setAttr();
         this.applyModifers();
 
-        this.hp = this.vig * getRandomInt(1, 3) * 2 + 200 + Math.floor((this.lvl * 2));
-        this.mp = (this.sab + this.int) * 3 + 150;
+        this.hp = (this.vig + this.con + this.lvl * 10) * 5;
+        this.mp = (this.sab + this.int + this.lvl * 10) * 5;
 
         this.ca = Math.floor((this.con + this.dex) / 5);
         this.mr = Math.floor((this.con + this.sab) / 5);
@@ -30,18 +34,8 @@ export default class Enemy {
         this.aim = Math.floor(this.dex / 1.5) < 1 ? 1 : Math.floor(this.dex / 1.5);
     }
 
-    tst(){
-        let mod = ['for','dex','con','int','sab','car','vig','per'];
-
-        mod.forEach(mod => {
-            if(this[mod]<1){
-                console.log(mod);
-            }
-        });
-    }
-
     setAttr() {
-        let base = getRandomInt(80, 100) + ((this.lvl - 1) * 20);
+        let base = getRandomInt(this.lowbase, this.highbase) + ((this.lvl - 1) * this.baserate); 
 
         let r = [];
         let sum = 0;
@@ -108,7 +102,6 @@ export default class Enemy {
     }
 
     getString() {
-        this.tst();
         let str = `Raça: ${this.race.name}<br>
         Classe: ${this.class}<br>
         <br>
